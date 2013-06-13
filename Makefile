@@ -6,9 +6,9 @@ server:
 
 publish:
 	@git push origin master
-	@rm -rf _site
+	@rm -rf _site/
 	@nico build
-	@ghp-import _site
+	~/bin/ghp-import/ghp-import _site/
 	@git push origin gh-pages
 
 .PHONY: debug server publish
