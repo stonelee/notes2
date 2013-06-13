@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="generator" content="nico 0.4.1">
+    <meta name="theme" content="one 0.1">
+    <title>android</title>
+    <link rel="stylesheet" href="../static/one.css" />
+    <link rel="stylesheet" href="../static/syntax.css" />
+  </head>
+  <body>
+    <div class="navigation" role="navigation">
+      <div class="container">
+        <a class="home" href="../"></a>
+      </div>
+    </div>
+    <div class="document">
+<div class="hentry">
+  <h1 class="entry-title">android</h1>
+  <div class="entry-content"><h3 id="安装">安装</h3><div class="highlight"><pre><code class="bash">sudo apt-get install openjdk-6-jdk
+sudo apt-get install git-core gnupg flex bison gperf build-essential \
+  zip curl libc6-dev libncurses5-dev:i386 x11proto-core-dev \
+  libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-glx:i386 \
+  libgl1-mesa-dev g++-multilib mingw32 openjdk-6-jdk tofrodos \
+  python-markdown libxml2-utils xsltproc zlib1g-dev:i386</code></pre></div><h3 id="创建应用">创建应用</h3><p><code>android create project --target 1 --name MyFirstApp --path ～/test/MyFirstApp --activity MainActivity --package com.example.myfirstapp</code></p>
+<p>在应用目录中：</p>
+<p>编译：<code>ant debug</code></p>
+<p>安装：<code>adb install &lt;path to your .apk&gt;</code>，<code>-r</code>可以自动卸载软件然后安装</p>
+<h2 id="phonegap">phonegap</h2><p>创建应用:
+<code>./bin/create ~/test/MyFirstPhoneGapApp com.example.myfirstphonegapapp MyFirstPhoneGapApp</code></p>
+<p>在应用目录中：</p>
+<p>编译：<code>./cordova/build</code>
+安装：<code>./cordova/run</code></p>
+</div>
+</div>
+</div>
+    <div class="footer">
+      <p class="copyright">powered by <a href="http://lab.lepture.com/nico/">nico</a> 0.4.1</p>
+    </div>
+    <script src="http://static.alipayobjects.com/seajs/1.2.1/sea.js" data-main="../static/one.js"></script>
+  </body>
+</html>

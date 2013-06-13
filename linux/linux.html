@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="generator" content="nico 0.4.1">
+    <meta name="theme" content="one 0.1">
+    <title>linux</title>
+    <link rel="stylesheet" href="../static/one.css" />
+    <link rel="stylesheet" href="../static/syntax.css" />
+  </head>
+  <body>
+    <div class="navigation" role="navigation">
+      <div class="container">
+        <a class="home" href="../"></a>
+      </div>
+    </div>
+    <div class="document">
+<div class="hentry">
+  <h1 class="entry-title">linux</h1>
+  <div class="entry-content"><h2 id="命令行">命令行</h2><p>跳到行首: <code>ctrl+a</code>
+跳到行尾: <code>ctrl+e</code>
+删除整行: <code>ctrl+c</code></p>
+<p>递归设置文件夹权限(一般为775):
+<code>find -type d|xargs chmod 775</code></p>
+<p>递归设置文件权限(一般为664):
+<code>find -type f|xargs chmod 664</code></p>
+<h2 id="安装卸载">安装卸载</h2><p>安装: <code>sudo dpkg -i 软件名.deb</code></p>
+<p>卸载: 先<code>dpkg -l | grep qq</code> 找到名字，然后执行：<code>sudo dpkg -r qq-for-wine 或 sudo dpkg -P qq-for-wine</code></p>
+<p><code>-P</code>删除配置文件，比较常用；<code>-r</code>保留配置文件，可以用来重装软件。</p>
+<p>nginx配置 <code>/etc/nginx</code></p>
+<h2 id="启动">启动</h2><p>关机: <code>halt</code>
+重启: <code>reboot</code></p>
+<p>进入root账户: <code>sudo -i</code></p>
+<p>查看log:  <code>/var/log</code></p>
+<p>查看系统启动信息 <code>dmesg</code></p>
+<h3 id="系统启动显示详细开机信息">系统启动显示详细开机信息</h3><p>修改<code>/etc/default/grub</code>, 修改<code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;&quot;</code></p>
+<p>修改<code>/etc/grub.d/10_linux</code>, 注释掉<code>gfxmode &amp;linux_gfx_mode</code></p>
+<p>然后<code>update-grub</code></p>
+<p>实际修改的是<code>/boot/grub/grub.cfg</code></p>
+</div>
+</div>
+</div>
+    <div class="footer">
+      <p class="copyright">powered by <a href="http://lab.lepture.com/nico/">nico</a> 0.4.1</p>
+    </div>
+    <script src="http://static.alipayobjects.com/seajs/1.2.1/sea.js" data-main="../static/one.js"></script>
+  </body>
+</html>
