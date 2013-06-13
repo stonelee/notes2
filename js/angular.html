@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="generator" content="nico 0.4.1">
+    <meta name="theme" content="one 0.1">
+    <title>angular</title>
+    <link rel="stylesheet" href="../static/one.css" />
+    <link rel="stylesheet" href="../static/syntax.css" />
+  </head>
+  <body>
+    <div class="navigation" role="navigation">
+      <div class="container">
+        <a class="home" href="../"></a>
+      </div>
+    </div>
+    <div class="document">
+<div class="hentry">
+  <h1 class="entry-title">angular</h1>
+  <div class="entry-content"><h2 id="directive">directive</h2><p><code>transclude: true</code>使得ng-transclude可以嵌入内容，
+<code>&#39;element&#39;</code>嵌入整个元素，并以较低优先级执行其他directive</p>
+<p><code>scope:true</code>建立新的scope, <code>scope:{}</code>取值:</p>
+<p><code>@</code>绑定dom属性值，name变化localName也变化:
+对于<code>&lt;widget my-attr=&quot;hello {{name}}&quot;&gt;</code>可绑定<code>{ localName:&#39;@myAttr&#39; }</code></p>
+<p><code>=</code>双向绑定:
+对于<code>&lt;widget my-attr=&quot;parentModel&quot;&gt;</code>可绑定<code>{ localModel:&#39;=myAttr&#39; }</code></p>
+<p><code>&amp;</code>在parent scope中执行expression</p>
+<p>controller在pre-linking前实例化，供link使用</p>
+<p>编译时，compiler调用$interpolate服务解析expressions，并注册为watches，在digest后更新</p>
+<ol>
+<li>使用browser api将html解析为dom</li>
+<li>使用$compile解析dom，匹配directives，汇总为组，按priority排列，执行其compile（compile函数可以修改dom结构，产生link），最终返回link组</li>
+<li>使用scope执行link，注册监听，建立watches</li>
+</ol>
+<p>compile修改dom模板，为提升性能将所有实例都需要的操作放到这里，
+link（常用）操作特定dom实例，注册监听事件，从scope向DOM中复制内容。</p>
+<h3 id="内置directive">内置directive</h3><p>ngController ngModel ngBind</p>
+<p>a IE8以下自动加入href，如果没有href则取消跳转</p>
+<p>multiple,selected,checked,disabled,readOnly,required,open解决html中不存在为false的问题</p>
+<p>ngSrc ngHref解决直接赋值的错误路径问题</p>
+<p>form可以嵌套，嵌套时一般使用ngForm</p>
+<ul>
+<li><code>ng-bind</code> 按字面内容插入</li>
+<li><code>ng-bind-html</code> 解析html后插入，可以确保安全</li>
+<li><code>ng-bind-html-unsafe</code> 完全信任html，直接innerHtml</li>
+</ul>
+<p><code>ng-cloak</code> 可以避免模板在加载过程中的闪动，初始时<code>display:none</code>，加载完成后再显示.
+需要将angular.js放在header中，或者在css中加入</p>
+<div class="highlight"><pre><code class="css"><span class="attr_selector">[ng\:cloak]</span>, <span class="attr_selector">[ng-cloak]</span>, <span class="attr_selector">[data-ng-cloak]</span>, <span class="attr_selector">[x-ng-cloak]</span>, <span class="class">.ng-cloak</span>, <span class="class">.x-ng-cloak</span> <span class="rules">{
+  <span class="rule"><span class="attribute">display</span>:<span class="value"> none;</span></span>
+<span class="rule">}</span></span></code></pre></div><p>也可以使用ngBind</p>
+<h2 id="service">service</h2><p>$q总是异步的，通过$rootScope.$apply()来激活</p>
+<p>service与factory的区别</p>
+<div class="highlight"><pre><code class="javascript">app.service(<span class="string">'myService'</span>, <span class="keyword">function</span>() {
+  <span class="comment">// service is just a constructor function that will be called with 'new'</span>
+  <span class="keyword">this</span>.sayHello = <span class="keyword">function</span>(name) {
+     <span class="keyword">return</span> <span class="string">"Hi "</span> + name + <span class="string">"!"</span>;
+  };
+});
+
+app.factory(<span class="string">'myFactory'</span>, <span class="keyword">function</span>() {
+  <span class="comment">// factory returns an object. you can run some code before</span>
+  <span class="keyword">return</span> {
+    sayHello : <span class="keyword">function</span>(name) {
+      <span class="keyword">return</span> <span class="string">"Hi "</span> + name + <span class="string">"!"</span>;
+    }
+  }
+});</code></pre></div><p>将html元素编译为函数并使用scope调用 <code>$compile($node)(scope)</code></p>
+<p>将表达式编译为函数并调用 <code>$parse</code></p>
+<div class="highlight"><pre><code class="javascript"><span class="keyword">var</span> getter = $parse(<span class="string">'user.name'</span>);
+<span class="keyword">var</span> setter = getter.assign;
+<span class="keyword">var</span> context = {user:{name:<span class="string">'angular'</span>}};
+<span class="keyword">var</span> locals = {user:{name:<span class="string">'local'</span>}};
+
+expect(getter(context)).toEqual(<span class="string">'angular'</span>);
+setter(context, <span class="string">'newValue'</span>);
+expect(context.user.name).toEqual(<span class="string">'newValue'</span>);
+expect(getter(context, locals)).toEqual(<span class="string">'local'</span>);</code></pre></div><h3 id="communicate-between-controllers">communicate between controllers</h3><p>sharing a service:</p>
+<div class="highlight"><pre><code class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">FirstController</span><span class="params">(someDataService)</span> {</span>
+  <span class="comment">// use the data service, bind to template...</span>
+  <span class="comment">// or call methods on someDataService to send a request to server</span>
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">SecondController</span><span class="params">(someDataService)</span> {</span>
+  <span class="comment">// has a reference to the same instance of the service</span>
+  <span class="comment">// so if the service updates state for example, this controller knows about it</span>
+}</code></pre></div><p>emitting an event on scope:</p>
+<div class="highlight"><pre><code class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">FirstController</span><span class="params">($scope)</span> {</span>
+  $scope.$on(<span class="string">'someEvent'</span>, <span class="keyword">function</span>() {});
+  <span class="comment">// another controller or even directive</span>
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">SecondController</span><span class="params">($scope)</span> {</span>
+  $scope.$emit(<span class="string">'someEvent'</span>, args);
+}</code></pre></div><h2 id="源码">源码</h2><p>setupModuleLoader得到module(name, requires, configFn)</p>
+<p>module得到moduleInstance</p>
+<p>moduleInstance内部维护了invokeQueue和runBlocks</p>
+<p>AngularPublic.js建立ngLocale和ng两个module</p>
+<p>injector.js
+执行$get</p>
+<div class="highlight"><pre><code class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">createInternalInjector</span><span class="params">(cache, factory)</span> {</span>
+
+  get: <span class="function"><span class="keyword">function</span> <span class="title">getService</span><span class="params">(serviceName)</span> {</span>
+    <span class="keyword">return</span> factory(serviceName);
+  }
+  invoke:<span class="function"><span class="keyword">function</span> <span class="title">invoke</span><span class="params">(fn, self, locals)</span>{</span>
+    <span class="keyword">return</span> fn.apply(self, args);<span class="comment">//args为依赖数组getService得到的数组</span>
+  }
+  instantiate: <span class="function"><span class="keyword">function</span> <span class="title">instantiate</span><span class="params">(Type, locals)</span> {</span>
+    <span class="keyword">return</span> invoke(Type, instance, locals);
+  }
+  annotate(fn)获得$inject，即fn的依赖数组
+}</code></pre></div></div>
+</div>
+</div>
+    <div class="footer">
+      <p class="copyright">powered by <a href="http://lab.lepture.com/nico/">nico</a> 0.4.1</p>
+    </div>
+    <script src="http://static.alipayobjects.com/seajs/1.2.1/sea.js" data-main="../static/one.js"></script>
+  </body>
+</html>
