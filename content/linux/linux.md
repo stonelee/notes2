@@ -44,3 +44,22 @@ nginx配置 `/etc/nginx`
 然后`update-grub`
 
 实际修改的是`/boot/grub/grub.cfg`
+
+## 服务器
+
+### 修改apache2端口
+
+配置文件在/etc/apache2中
+
+修改ports.conf
+```
+NameVirtualHost *:8000
+Listen 8000
+```
+
+修改sites-enabled/000-default
+```
+<VirtualHost *:8000>
+```
+
+重启 `sudo service apache2 restart`

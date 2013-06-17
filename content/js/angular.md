@@ -7,16 +7,6 @@
 `transclude: true`使得ng-transclude可以嵌入内容，
 `'element'`嵌入整个元素，并以较低优先级执行其他directive
 
-`scope:true`建立新的scope, `scope:{}`取值:
-
-`@`绑定dom属性值，name变化localName也变化:
-对于`<widget my-attr="hello {{name}}">`可绑定`{ localName:'@myAttr' }`
-
-`=`双向绑定:
-对于`<widget my-attr="parentModel">`可绑定`{ localModel:'=myAttr' }`
-
-`&`在parent scope中执行expression
-
 controller在pre-linking前实例化，供link使用
 
 编译时，compiler调用$interpolate服务解析expressions，并注册为watches，在digest后更新
@@ -27,6 +17,78 @@ controller在pre-linking前实例化，供link使用
 
 compile修改dom模板，为提升性能将所有实例都需要的操作放到这里，
 link（常用）操作特定dom实例，注册监听事件，从scope向DOM中复制内容。
+
+### scope
+
+* `scope:true` 创建新的scope，原型继承父scope
+* `scope:{}` 隔离的scope，适于创建可重用组件
+
+ng-repeat, ng-switch, ng-view, ng-include会创建新的继承scope
+
+ng-controller最好使用service共享数据，而不是使用scope
+
+新的scope中如果要修改父scope变量，最好使用object或array，或者$parent.parentScopeProperty
+
+因为在js的原型继承中，子类如果给属性赋值会自身创建该属性，并覆盖父类的同名属性；
+而因为object是引用赋值，所以如果对array或object进行更改，修改的会是父类同名属性。
+另外，如果对object进行赋值，会自身创建该属性。如果删除之，会再次暴露出父类同名属性。
+
+必须使用attribute指定parent property，然后才能在scope中引用
+
+```js
+<my-component attribute-foo="{{foo}}" binding-foo="foo" isolated-expression-foo="updateFoo(newFoo)" >
+scope:{
+  //`@`绑定dom属性值，name变化localName也变化:
+  isolatedAttributeFoo:'@attributeFoo',
+  // `=`双向绑定:
+  isolatedBindingFoo:'=bindingFoo',
+  // `&`在parent scope中执行expression
+  isolatedExpressionFoo:'&'
+}
+```
+
+### 四种scopes，都拥有parent-child关系，通过$parent , $$childHead, $$childTail调用
+
+原型继承ng-include, ng-switch, ng-controller, directive with scope: true
+
+ng-repeat 原型继承并赋值
+
+独立 scope: {...}，'=', '@',  '&'通过属性可以获取parent scope properties
+
+transcluded scope -- directive with transclude: true. 原型继承，但是将isolate scope作为sibling
+
+
+### $observe vs $watch
+
+$observe()是attrs的方法，用于监测DOM属性的变化，特别是包含{{}}
+
+```js
+attr1="Name: {{name}}"
+attrs.$observe('attr1', ...).
+```
+
+$watch()是scope的方法，用于监测expression，参数为函数或者字符串
+如果是字符串，那么会$parse为函数，然后在每个digest循环中被调用，不能包含{{}}
+
+```js
+attr1="myModel.some_prop",
+scope.$watch('myModel.some_prop', ...)
+scope.$watch(attrs.attr1, ...)
+scope.$watch(attrs['attr1'], ...)
+```
+
+link函数中， {{}}属性还没有执行，所以只能通过$observe来获得，或者使用@的isolate scope中的$watch
+
+### compile vs link vs controller
+
+compile用于DOM操作的模板（tElement = template element），如果定义了compile，那么link会被忽略，因此link需要作为compile的返回函数
+
+link用来注册DOM listeners（$watch），修改DOM（iElement = individual instance element），在模板被clone之后执行
+
+controller当其他directive需要与本directive交互时使用
+
+on the AngularJS home page, the pane directive needs to add itself to the scope maintained by the tabs directive,
+hence the tabs directive needs to define a controller method (think API) that the pane directive can access/call.
 
 ### 内置directive
 
@@ -118,6 +180,26 @@ function FirstController($scope) {
 function SecondController($scope) {
   $scope.$emit('someEvent', args);
 }
+```
+
+### defer
+
+```js
+ var deferred = $q.defer();
+
+  setTimeout(function() {
+    // since this fn executes async in a future turn of the event loop, we need to wrap
+    // our code into an $apply call so that the model changes are properly observed.
+    scope.$apply(function() {
+      if (okToGreet(name)) {
+        deferred.resolve('Hello, ' + name + '!');
+      } else {
+        deferred.reject('Greeting ' + name + ' is not allowed.');
+      }
+    });
+  }, 1000);
+
+  return deferred.promise;
 ```
 
 ## 源码
