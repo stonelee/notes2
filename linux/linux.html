@@ -38,6 +38,11 @@
 <p>修改<code>/etc/grub.d/10_linux</code>, 注释掉<code>gfxmode &amp;linux_gfx_mode</code></p>
 <p>然后<code>update-grub</code></p>
 <p>实际修改的是<code>/boot/grub/grub.cfg</code></p>
+<h2 id="服务器">服务器</h2><h3 id="修改apache2端口">修改apache2端口</h3><p>配置文件在/etc/apache2中</p>
+<p>修改ports.conf</p>
+<pre>NameVirtualHost *:8000
+Listen 8000</pre><p>修改sites-enabled/000-default</p>
+<pre>&lt;VirtualHost *:8000&gt;</pre><p>重启 <code>sudo service apache2 restart</code></p>
 </div>
 </div>
 </div>

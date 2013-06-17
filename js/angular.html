@@ -20,12 +20,6 @@
   <h1 class="entry-title">angular</h1>
   <div class="entry-content"><h2 id="directive">directive</h2><p><code>transclude: true</code>使得ng-transclude可以嵌入内容，
 <code>&#39;element&#39;</code>嵌入整个元素，并以较低优先级执行其他directive</p>
-<p><code>scope:true</code>建立新的scope, <code>scope:{}</code>取值:</p>
-<p><code>@</code>绑定dom属性值，name变化localName也变化:
-对于<code>&lt;widget my-attr=&quot;hello {{name}}&quot;&gt;</code>可绑定<code>{ localName:&#39;@myAttr&#39; }</code></p>
-<p><code>=</code>双向绑定:
-对于<code>&lt;widget my-attr=&quot;parentModel&quot;&gt;</code>可绑定<code>{ localModel:&#39;=myAttr&#39; }</code></p>
-<p><code>&amp;</code>在parent scope中执行expression</p>
 <p>controller在pre-linking前实例化，供link使用</p>
 <p>编译时，compiler调用$interpolate服务解析expressions，并注册为watches，在digest后更新</p>
 <ol>
@@ -35,6 +29,42 @@
 </ol>
 <p>compile修改dom模板，为提升性能将所有实例都需要的操作放到这里，
 link（常用）操作特定dom实例，注册监听事件，从scope向DOM中复制内容。</p>
+<h3 id="scope">scope</h3><ul>
+<li><code>scope:true</code> 创建新的scope，原型继承父scope</li>
+<li><code>scope:{}</code> 隔离的scope，适于创建可重用组件</li>
+</ul>
+<p>ng-repeat, ng-switch, ng-view, ng-include会创建新的继承scope</p>
+<p>ng-controller最好使用service共享数据，而不是使用scope</p>
+<p>新的scope中如果要修改父scope变量，最好使用object或array，或者$parent.parentScopeProperty</p>
+<p>因为在js的原型继承中，子类如果给属性赋值会自身创建该属性，并覆盖父类的同名属性；
+而因为object是引用赋值，所以如果对array或object进行更改，修改的会是父类同名属性。
+另外，如果对object进行赋值，会自身创建该属性。如果删除之，会再次暴露出父类同名属性。</p>
+<p>必须使用attribute指定parent property，然后才能在scope中引用</p>
+<div class="highlight"><pre><code class="javascript">&lt;my-component attribute-foo=<span class="string">"{{foo}}"</span> binding-foo=<span class="string">"foo"</span> isolated-expression-foo=<span class="string">"updateFoo(newFoo)"</span> &gt;
+scope:{
+  <span class="comment">//`@`绑定dom属性值，name变化localName也变化:</span>
+  isolatedAttributeFoo:<span class="string">'@attributeFoo'</span>,
+  <span class="comment">// `=`双向绑定:</span>
+  isolatedBindingFoo:<span class="string">'=bindingFoo'</span>,
+  <span class="comment">// `&amp;`在parent scope中执行expression</span>
+  isolatedExpressionFoo:<span class="string">'&amp;'</span>
+}</code></pre></div><h3 id="四种scopes，都拥有parent-child关系，通过-parent-childhead-childtail调用">四种scopes，都拥有parent-child关系，通过$parent , $$childHead, $$childTail调用</h3><p>原型继承ng-include, ng-switch, ng-controller, directive with scope: true</p>
+<p>ng-repeat 原型继承并赋值</p>
+<p>独立 scope: {...}，&#39;=&#39;, &#39;@&#39;,  &#39;&amp;&#39;通过属性可以获取parent scope properties</p>
+<p>transcluded scope -- directive with transclude: true. 原型继承，但是将isolate scope作为sibling</p>
+<h3 id="observe-vs-watch">$observe vs $watch</h3><p>$observe()是attrs的方法，用于监测DOM属性的变化，特别是包含{{}}</p>
+<div class="highlight"><pre><code class="javascript">attr1=<span class="string">"Name: {{name}}"</span>
+attrs.$observe(<span class="string">'attr1'</span>, ...).</code></pre></div><p>$watch()是scope的方法，用于监测expression，参数为函数或者字符串
+如果是字符串，那么会$parse为函数，然后在每个digest循环中被调用，不能包含{{}}</p>
+<div class="highlight"><pre><code class="javascript">attr1=<span class="string">"myModel.some_prop"</span>,
+scope.$watch(<span class="string">'myModel.some_prop'</span>, ...)
+scope.$watch(attrs.attr1, ...)
+scope.$watch(attrs[<span class="string">'attr1'</span>], ...)</code></pre></div><p>link函数中， {{}}属性还没有执行，所以只能通过$observe来获得，或者使用@的isolate scope中的$watch</p>
+<h3 id="compile-vs-link-vs-controller">compile vs link vs controller</h3><p>compile用于DOM操作的模板（tElement = template element），如果定义了compile，那么link会被忽略，因此link需要作为compile的返回函数</p>
+<p>link用来注册DOM listeners（$watch），修改DOM（iElement = individual instance element），在模板被clone之后执行</p>
+<p>controller当其他directive需要与本directive交互时使用</p>
+<p>on the AngularJS home page, the pane directive needs to add itself to the scope maintained by the tabs directive,
+hence the tabs directive needs to define a controller method (think API) that the pane directive can access/call.</p>
 <h3 id="内置directive">内置directive</h3><p>ngController ngModel ngBind</p>
 <p>a IE8以下自动加入href，如果没有href则取消跳转</p>
 <p>multiple,selected,checked,disabled,readOnly,required,open解决html中不存在为false的问题</p>
@@ -93,7 +123,21 @@ expect(getter(context, locals)).toEqual(<span class="string">'local'</span>);</c
 
 <span class="function"><span class="keyword">function</span> <span class="title">SecondController</span><span class="params">($scope)</span> {</span>
   $scope.$emit(<span class="string">'someEvent'</span>, args);
-}</code></pre></div><h2 id="源码">源码</h2><p>setupModuleLoader得到module(name, requires, configFn)</p>
+}</code></pre></div><h3 id="defer">defer</h3><div class="highlight"><pre><code class="javascript"> <span class="keyword">var</span> deferred = $q.defer();
+
+  setTimeout(<span class="keyword">function</span>() {
+    <span class="comment">// since this fn executes async in a future turn of the event loop, we need to wrap</span>
+    <span class="comment">// our code into an $apply call so that the model changes are properly observed.</span>
+    scope.$apply(<span class="keyword">function</span>() {
+      <span class="keyword">if</span> (okToGreet(name)) {
+        deferred.resolve(<span class="string">'Hello, '</span> + name + <span class="string">'!'</span>);
+      } <span class="keyword">else</span> {
+        deferred.reject(<span class="string">'Greeting '</span> + name + <span class="string">' is not allowed.'</span>);
+      }
+    });
+  }, <span class="number">1000</span>);
+
+  <span class="keyword">return</span> deferred.promise;</code></pre></div><h2 id="源码">源码</h2><p>setupModuleLoader得到module(name, requires, configFn)</p>
 <p>module得到moduleInstance</p>
 <p>moduleInstance内部维护了invokeQueue和runBlocks</p>
 <p>AngularPublic.js建立ngLocale和ng两个module</p>
