@@ -63,3 +63,24 @@ Listen 8000
 ```
 
 重启 `sudo service apache2 restart`
+
+## 数据库
+
+### mysql中文乱码
+
+修改/etc/mysql/my.cnf
+
+```
+[mysql]
+character-set-server=utf8
+[mysqld]
+character-set-server=utf8
+```
+
+## 版本控制
+
+### git
+
+抛弃未提交的变动 `git reset --hard HEAD`
+
+撤销上次提交 `git revert HEAD`
