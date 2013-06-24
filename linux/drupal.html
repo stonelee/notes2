@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="generator" content="nico 0.4.1">
+    <meta name="theme" content="one 0.1">
+    <title>drupal</title>
+    <link rel="stylesheet" href="../static/one.css" />
+    <link rel="stylesheet" href="../static/syntax.css" />
+  </head>
+  <body>
+    <div class="navigation" role="navigation">
+      <div class="container">
+        <a class="home" href="../"></a>
+      </div>
+    </div>
+    <div class="document">
+<div class="hentry">
+  <h1 class="entry-title">drupal</h1>
+  <div class="entry-content"><h2 id="安装">安装</h2><p>语言文件放在 <code>profiles/standard/translations/</code></p>
+<p>建立文件并配置属性</p>
+<pre>cd ./sites/default
+sudo cp default.settings.php settings.php
+sudo chmod 777 settings.php
+
+mkdir files
+sudo chmod 777 files</pre><h2 id="drush">drush</h2><p>下载模块 <code>drush dl projectname</code></p>
+<p>升级 <code>drush up</code></p>
+<p>清缓存 <code>drush cc all</code></p>
+<p>备份数据库 <code>drush sql-dump &gt; /path/to/filename.sql</code></p>
+</div>
+</div>
+</div>
+    <div class="footer">
+      <p class="copyright">powered by <a href="http://lab.lepture.com/nico/">nico</a> 0.4.1</p>
+    </div>
+    <script src="http://static.alipayobjects.com/seajs/1.2.1/sea.js" data-main="../static/one.js"></script>
+  </body>
+</html>

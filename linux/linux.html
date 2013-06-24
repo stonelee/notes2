@@ -43,6 +43,12 @@
 <pre>NameVirtualHost *:8000
 Listen 8000</pre><p>修改sites-enabled/000-default</p>
 <pre>&lt;VirtualHost *:8000&gt;</pre><p>重启 <code>sudo service apache2 restart</code></p>
+<h2 id="数据库">数据库</h2><h3 id="mysql中文乱码">mysql中文乱码</h3><p>修改/etc/mysql/my.cnf</p>
+<pre>[mysql]
+character-set-server=utf8
+[mysqld]
+character-set-server=utf8</pre><h2 id="版本控制">版本控制</h2><h3 id="git">git</h3><p>抛弃未提交的变动 <code>git reset --hard HEAD</code></p>
+<p>撤销上次提交 <code>git revert HEAD</code></p>
 </div>
 </div>
 </div>
