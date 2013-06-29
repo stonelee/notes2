@@ -1,8 +1,8 @@
 debug:
-	@nico server --watch
+	@nico server --watch --port 8080
 
 server:
-	@nico server
+	@nico server --port 8080
 
 publish:
 	@git push origin master

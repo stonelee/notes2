@@ -14,6 +14,9 @@
 递归设置文件权限(一般为664):
 `find -type f|xargs chmod 664`
 
+更改文件的用户和用户组
+`sudo chown -R stonelee:stonelee .spm/`
+
 ## 安装卸载
 
 安装: `sudo dpkg -i 软件名.deb`
@@ -63,6 +66,20 @@ Listen 8000
 ```
 
 重启 `sudo service apache2 restart`
+
+### Apache添加虚拟目录
+
+```
+/etc/apache2/sites-enabled/000-default中
+
+Alias /php/ "/home/stonelee/libs/php/"
+<Directory /home/stonelee/libs/php/>
+  Options Indexes FollowSymLinks MultiViews
+  AllowOverride None
+  Order allow,deny
+  allow from all
+</Directory>
+```
 
 ## 数据库
 
