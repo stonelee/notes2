@@ -25,10 +25,28 @@ sudo cp default.settings.php settings.php
 sudo chmod 777 settings.php
 
 mkdir files
-sudo chmod 777 files</pre><h2 id="drush">drush</h2><p>下载模块 <code>drush dl projectname</code></p>
+sudo chmod 777 files</pre><h2 id="开发">开发</h2><p>module file (.module), include file (.inc), install file (.install), settings.php file, and template.php file (in themes)
+应该 <code>&lt;?php</code>开头，但是没有闭合标签。
+这是为了避免闭合标签后出现的空格导致的错误。
+template files (.tpl.php)文件中需要<code>?&gt;</code>来结尾</p>
+<p>module中内部使用的方法名前面加下划线，如_function_name()，不应该被其他模块调用，同时防止错误覆盖了hook。
+同时也应该加上模块名，防止与其他模块发生冲突</p>
+<p>清缓存，注意权限配置，显示Notices and Errors</p>
+<pre>settings.php中
+
+error_reporting(-1);
+$conf[&#39;error_level&#39;] = 2;
+ini_set(&#39;display_errors&#39;, TRUE);
+ini_set(&#39;display_startup_errors&#39;, TRUE);</pre><p>调试信息<code>debug($user, &#39;User object&#39;)</code></p>
+<p>从modules文件夹的module文件中递归寻找特定内容，并显示行号:
+<code>grep -nHR --include=*.module &#39;admin/appearance&#39; modules</code></p>
+<h2 id="drush">drush</h2><p>下载模块 <code>drush dl projectname</code></p>
 <p>升级 <code>drush up</code></p>
 <p>清缓存 <code>drush cc all</code></p>
 <p>备份数据库 <code>drush sql-dump &gt; /path/to/filename.sql</code></p>
+<h2 id="modules">modules</h2><p>eck</p>
+<p>代码风格检查 coder, grammar_parser</p>
+<h2 id="php">php</h2><p>5.3新语法 <code>$value ?: &quot;default&quot;</code></p>
 </div>
 </div>
 </div>

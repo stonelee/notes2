@@ -25,6 +25,8 @@
 <code>find -type d|xargs chmod 775</code></p>
 <p>递归设置文件权限(一般为664):
 <code>find -type f|xargs chmod 664</code></p>
+<p>更改文件的用户和用户组
+<code>sudo chown -R stonelee:stonelee .spm/</code></p>
 <h2 id="安装卸载">安装卸载</h2><p>安装: <code>sudo dpkg -i 软件名.deb</code></p>
 <p>卸载: 先<code>dpkg -l | grep qq</code> 找到名字，然后执行：<code>sudo dpkg -r qq-for-wine 或 sudo dpkg -P qq-for-wine</code></p>
 <p><code>-P</code>删除配置文件，比较常用；<code>-r</code>保留配置文件，可以用来重装软件。</p>
@@ -43,7 +45,15 @@
 <pre>NameVirtualHost *:8000
 Listen 8000</pre><p>修改sites-enabled/000-default</p>
 <pre>&lt;VirtualHost *:8000&gt;</pre><p>重启 <code>sudo service apache2 restart</code></p>
-<h2 id="数据库">数据库</h2><h3 id="mysql中文乱码">mysql中文乱码</h3><p>修改/etc/mysql/my.cnf</p>
+<h3 id="apache添加虚拟目录">Apache添加虚拟目录</h3><pre>/etc/apache2/sites-enabled/000-default中
+
+Alias /php/ &quot;/home/stonelee/libs/php/&quot;
+&lt;Directory /home/stonelee/libs/php/&gt;
+  Options Indexes FollowSymLinks MultiViews
+  AllowOverride None
+  Order allow,deny
+  allow from all
+&lt;/Directory&gt;</pre><h2 id="数据库">数据库</h2><h3 id="mysql中文乱码">mysql中文乱码</h3><p>修改/etc/mysql/my.cnf</p>
 <pre>[mysql]
 character-set-server=utf8
 [mysqld]
