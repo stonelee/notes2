@@ -5,6 +5,7 @@ server:
 	@nico server --port 8080
 
 publish:
+	@git commit -m 'upload'
 	@git push origin master
 	@rm -rf _site/
 	@nico build
