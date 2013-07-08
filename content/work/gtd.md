@@ -94,3 +94,33 @@
 * 9:00-11:30 drupal
 * 14:00-16:00 drupal
 
+### 7.1
+* 16:50-17:10 extjs修正RowExpander无滚动条的问题
+
+### 7.2
+* 8:50-11:30 svg
+* 14:00-17:00 svg
+* 19:00-20:00 drupal
+
+### 7.3
+* 8:50-11:30 svg
+* 14:00-16:00 svg
+* 16:10-17:00 extjs - date and datetime get current time from server 
+* 20:00-21:00 photoshop
+
+### 7.4
+* 8:40-10:10 drupal examples
+* 10:30-11:30 record
+* 13:30-17:00 svg
+
+### 7.5
+* 8:40-11:30 svg
+* 13:30-15:00 svg
+* 16:00-17:30 animate
+
+### 7.6
+* 8:00-11:00 web
+* 22:30-23:30 css
+
+### 7.7
+* 19:30-21:00 css

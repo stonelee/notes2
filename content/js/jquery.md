@@ -11,3 +11,5 @@
 ## event
 
 `e.which`统一了e.keyCode/e.charCode/鼠标按键
+
+mouseenter会自动处理事件冒泡 ，如果从外部元素中移动到内部元素中会触发mouseover，但是不会触发mouseenter
