@@ -18,7 +18,13 @@
     <div class="document">
 <div class="hentry">
   <h1 class="entry-title">linux</h1>
-  <div class="entry-content"><h2 id="命令行">命令行</h2><p>跳到行首: <code>ctrl+a</code>
+  <div class="entry-content"><p>误删除数据后，如果其他进程有使用该数据，可以进行恢复</p>
+<ol>
+<li>找到刚才的Python进程 $ ps -Af | grep python</li>
+<li>查看进程 ll /proc/4933/fd</li>
+<li>查看文件 cat /proc/4933/fd/3</li>
+</ol>
+<h2 id="命令行">命令行</h2><p>跳到行首: <code>ctrl+a</code>
 跳到行尾: <code>ctrl+e</code>
 删除整行: <code>ctrl+c</code></p>
 <p>递归设置文件夹权限(一般为775):
@@ -59,6 +65,8 @@ character-set-server=utf8
 [mysqld]
 character-set-server=utf8</pre><h2 id="版本控制">版本控制</h2><h3 id="git">git</h3><p>抛弃未提交的变动 <code>git reset --hard HEAD</code></p>
 <p>撤销上次提交 <code>git revert HEAD</code></p>
+<h2 id="vim">vim</h2><p><code>ctrl+n</code> 关键字补全</p>
+<h2 id="jshint">jshint</h2><p>在.jshint中配置es3:true，用于兼容IE8以下语法，例如数组中最后一项没有逗号</p>
 </div>
 </div>
 </div>

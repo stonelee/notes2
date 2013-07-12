@@ -20,9 +20,84 @@
   <h1 class="entry-title">css</h1>
   <div class="entry-content"><h2 id="basic">basic</h2><p>调整background的覆盖区域:
 <code>background-clip: border-box 或 padding-box 或 content-box</code></p>
+<p>控制背景的起始位置:
+background-origin.
+取值为padding-box, border-box, content-box</p>
+<p>控制背景大小，拉伸改变:
+background-size</p>
 <p>RGBA 和opacity 之间的不同是前者只会应用到指定的元素上，而后者会影响我们指定的元素及其子元素。</p>
 <p>user-select 用来控制内容的可选择性。如果设为none则用户不能选择元素中的任何内容</p>
+<p>url中不需要&#39;&#39;</p>
+<p>block元素如果不设定宽度，会使用文本宽度，进而扩展到最宽</p>
+<h3 id="shrink-wrap">Shrink Wrap</h3><p>使得block元素跟content一样宽</p>
+<ul>
+<li>float: left  最简单</li>
+<li>display: inline 可以在父元素中text-align:center实现居中</li>
+<li>display: inline-block 要考虑IE6兼容</li>
+<li>position: absolute;</li>
+</ul>
 <h2 id="技巧">技巧</h2><p>mod设置border-radius，如果hd/ft没有设置，会出现直边,解决方法是也设置相应的border-radius</p>
+<h3 id="backgrond">backgrond</h3><p><code>background: #ccc url(/img/bullet.gif) no-repeat left center;</code></p>
+<p>可以直接用在body中作为背景显示</p>
+<p>如果图片作为显示的内容，应该使用image标签；如果只是修饰，应该使用background</p>
+<p>修饰性图片需要设置width, height</p>
+<p>作为背景时通常需要空出位置防止文字覆盖，可以使用padding</p>
+<p>background-position中
+left center; 与 0 50%; 效果相同</p>
+<p>可以使用keywords,  pixels or percentages。
+如果使用px或em，则图像左上角定位在元素指定位置。
+如果使用百分比，则图像相应百分比定位在元素指定百分比位置。
+不要混用units和keywords</p>
+<h3 id="圆角">圆角</h3><p>定宽使用上下两个标签，如果背景也需要图片那么需要三个标签。在上下标签里分别进行相应的padding</p>
+<p>不定宽使用四个标签，使用滑动门技术，预先准备最大的图片，切割为四部分</p>
+<p>em使得box大小随字体变化，为elastic布局。%使得box大小随屏幕大小变化，为liquid布局</p>
+<p>Multiple background images可以省略多余的标签</p>
+<p>border-radius专业圆角</p>
+<p>border-image使用一个图像即可，而且可以通过图像控制边距</p>
+<h3 id="阴影">阴影</h3><p>使用最大的阴影图片作为背景，img做margin。注意div为block，需要shrink-wrap</p>
+<p>block中的inline image会自动跟文字的baseline对齐，因此外面包裹的div高度会大于image高度。
+解决方法是设image的display: block, 或vertical-align: bottom or middle,
+或索性设div的line-height:0</p>
+<p>box-shadow</p>
+<h3 id="透明">透明</h3><div class="highlight"><pre><code class="css">opacity: 0.8;
+filter: alpha(opacity=80); /*proprietary IE code*/</code></pre></div><p>问题是由于继承关系，包裹的内容文字也会透明，
+background-color: rgba(0,0,0,0.8);这样里面的文字就不会透明了</p>
+<p>IE6中png透明</p>
+<div class="highlight"><pre><code class="css">  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/controls.png', sizingMethod='crop');
+  _background:none;</code></pre></div><h3 id="link-style">link style</h3><p>锚点可以使用id，也可以<code>&lt;a name=&quot;some&quot;&gt;&lt;/a&gt;</code>。
+因此设置a样式不够严谨，应该使用a:link</p>
+<p>注意顺序</p>
+<div class="highlight"><pre><code class="css"><span class="tag">a</span><span class="pseudo">:link</span>, <span class="tag">a</span><span class="pseudo">:visited</span> <span class="rules">{<span class="rule"><span class="attribute">text-decoration</span>:<span class="value"> none;</span></span><span class="rule">}</span></span>
+<span class="tag">a</span><span class="pseudo">:hover</span>, <span class="tag">a</span><span class="pseudo">:focus</span>, <span class="tag">a</span><span class="pseudo">:active</span> <span class="rules">{<span class="rule"><span class="attribute">text-decoration</span>:<span class="value"> underline;</span></span><span class="rule">}</span></span></code></pre></div><p>可以设置颜色，加粗，边框来区分链接样式。
+使用border-bottom模拟下划线。
+使用background实现各种样式的下划线，甚至gif动画</p>
+<p>CSS3中加入:target，可以在该锚点被点击后触发</p>
+<p>链接只应该用于get，如果用于post很有可能会误操作（如爬虫，加速器等）</p>
+<h3 id="list">list</h3><p>在a中控制样式而不是li中控制，这样通常有更好的浏览器兼容性</p>
+<p>斜面效果：top-border颜色比background更亮，bottom-border比之更暗</p>
+<p>在body中添加class用来区分本页特点，可以有效控制不同页面的样式差异</p>
+<p>IE中如果a做了text-indent， 会失去边框等效果。解决方法是使用一个透明gif作为background-image</p>
+<p>在a中可以使用多个span来完成更复杂的交互</p>
+<h2 id="案例">案例</h2><h3 id="roma">Roma</h3><p>body中设置background，font，color</p>
+<p>页面居中 wrapper，定宽1070px</p>
+<p>四部分 header, main, secondary, footer</p>
+<p>中间两部分float:left; margin控制边距，定宽</p>
+<p>footer字体小，颜色淡。text-align:center;  居中背景图</p>
+<p>header中ul&gt;li&gt;a&gt;em, strong, h1, h2, form 简单的不用加id</p>
+<p><code>&lt;form action=&quot;#&quot; method=&quot;get&quot;&gt;</code></p>
+<p><code>&lt;input type=&quot;image&quot; src=&quot;img/search-go.gif&quot;&gt;</code></p>
+<p>carousel</p>
+<p>a包裹img，a样式为background: #1e1a0e url(../img/loading.gif) no-repeat center center;来显示加载图片</p>
+<p>img也可以有background</p>
+<h2 id="工具">工具</h2><h3 id="css3-pie让ie6-8支持圆角、渐变、阴影">CSS3 Pie让IE6-8支持圆角、渐变、阴影</h3><p>支持border-radius: 5px 10px 15px 20px;</p>
+<p>box-shadow如果box背景透明会透出来，因此需要设置box背景</p>
+<p>border-image</p>
+<p>multiple background images, linear gradients as background images, and some of the new CSS3 background aspects such as background origin and clip，</p>
+<p>需要使用 -pie-background，可以实现IE6的png透明</p>
+<p>可以自动监听css的变化，</p>
+<p>监听父级css变化-pie-watch-ancestors: 1</p>
+<p>强制png透明 -pie-png-fix: true;</p>
+<p>延迟渲染直到滚动到可视区域-pie-lazy-init:true;</p>
 </div>
 </div>
 </div>
