@@ -2,6 +2,12 @@
 
 ------
 
+误删除数据后，如果其他进程有使用该数据，可以进行恢复
+
+1. 找到刚才的Python进程 $ ps -Af | grep python
+2. 查看进程 ll /proc/4933/fd
+3. 查看文件 cat /proc/4933/fd/3
+
 ## 命令行
 
 跳到行首: `ctrl+a`
@@ -101,3 +107,12 @@ character-set-server=utf8
 抛弃未提交的变动 `git reset --hard HEAD`
 
 撤销上次提交 `git revert HEAD`
+
+## vim
+
+`ctrl+n` 关键字补全
+
+## jshint
+
+在.jshint中配置es3:true，用于兼容IE8以下语法，例如数组中最后一项没有逗号
+
