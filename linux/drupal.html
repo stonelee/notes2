@@ -37,9 +37,56 @@ template files (.tpl.php)文件中需要<code>?&gt;</code>来结尾</p>
 error_reporting(-1);
 $conf[&#39;error_level&#39;] = 2;
 ini_set(&#39;display_errors&#39;, TRUE);
-ini_set(&#39;display_startup_errors&#39;, TRUE);</pre><p>调试信息<code>debug($user, &#39;User object&#39;)</code></p>
+ini_set(&#39;display_startup_errors&#39;, TRUE);</pre><p>调试信息</p>
+<ul>
+<li><code>dpm</code> 使用Devel显示内容</li>
+<li><code>watchdog</code>打印出日志需要在报告中查看</li>
+<li><code>debug($user, &#39;User object&#39;)</code></li>
+<li><code>drupal_set_message</code> 保存在session中，通过$messages显示</li>
+</ul>
 <p>从modules文件夹的module文件中递归寻找特定内容，并显示行号:
 <code>grep -nHR --include=*.module &#39;admin/appearance&#39; modules</code></p>
+<ul>
+<li><code>theme_get_setting</code> 从setting中获取值</li>
+<li><code>variable_get</code> 从数据库中取值，使用form也可以更改此值</li>
+</ul>
+<p><code>drupal_attributes</code> 将array转为属性字符串，会 check_plain 过滤特殊字符</p>
+<p><code>drupal_add_js(path_to_theme() . &#39;/js/hoverintent/hoverintent.js&#39;);</code></p>
+<p><code>drupal_strtolower</code> 转为小写</p>
+<p><code>drupal_get_path_alias</code>， drupal_get_normal_path</p>
+<p><code>drupal_match_path</code> 检查path是否符合模式</p>
+<p><code>arg</code> 得到path的部分值</p>
+<p>创建文件夹</p>
+<pre>  $dir = file_stream_wrapper_uri_normalize($dir);
+  file_prepare_directory($dir,  FILE_CREATE_DIRECTORY);</pre><ul>
+<li><code>file_copy</code> 复制文件并将记录加到数据库中</li>
+<li><code>file_unmanaged_delete</code> 删除文件，不影响数据库</li>
+<li><p><code>file_save_upload</code> 上传文件，保存在临时表中</p>
+</li>
+<li><p><code>image_load</code> 加载image并返回image对象</p>
+</li>
+<li><code>image_scale</code> 保持比例更改image尺寸</li>
+<li><code>image_save</code> 保存</li>
+</ul>
+<p><code>hide</code>() 在后面render父节点时不进行渲染</p>
+<p><code>flood_is_allowed</code>， <code>flood_clear_event</code>，<code>flood_register_event</code>在一段时间内控制访问次数</p>
+<p><code>drupal_goto</code> 重定向到url</p>
+<p><code>ip_address</code> 客户端IP地址</p>
+<p><code>db_query_range</code> 从数据库中查询部分内容</p>
+<p><code>user_access</code> 判断用户是否有权限</p>
+<p><code>menu_get_item</code> 得到导航项</p>
+<p><code>drupal_get_title</code> 得到页面title</p>
+<p><code>system_region_list</code> 从主题中获取regions</p>
+<p><code>element_children</code> 得到元素的children，不以“#”打头</p>
+<p><code>l</code> 创建链接</p>
+<p><code>t</code> 翻译字符串</p>
+<ul>
+<li><code>!variable</code> 原样输出，适用于url</li>
+<li><code>@variable</code> 通过check_plain过滤html字符</li>
+<li><code>%variable</code> 过滤并使用theme_placeholder强调</li>
+</ul>
+<p>使用templates/node--teaser.tpl.php
+<code>$vars[&#39;theme_hook_suggestions&#39;][] = &#39;node__teaser&#39;;</code></p>
 <h2 id="drush">drush</h2><p>下载模块 <code>drush dl projectname</code></p>
 <p>升级 <code>drush up</code></p>
 <p>清缓存 <code>drush cc all</code></p>
@@ -47,6 +94,31 @@ ini_set(&#39;display_startup_errors&#39;, TRUE);</pre><p>调试信息<code>debug
 <h2 id="modules">modules</h2><p>eck</p>
 <p>代码风格检查 coder, grammar_parser</p>
 <h2 id="php">php</h2><p>5.3新语法 <code>$value ?: &quot;default&quot;</code></p>
+<p><code>define</code> 定义常量</p>
+<p><code>global</code> function中无法调用外面的变量，除非使用global关键字</p>
+<p><code>include_once</code> 仅仅加载并执行脚本一次</p>
+<p><code>var_dump</code> 打印结构</p>
+<p><code>pathinfo</code> 解析file path</p>
+<p><code>usort</code> 根据自定义函数进行数组排序</p>
+<p><code>mt_rand</code> 随机整数</p>
+<p><code>htmlentities</code> 将特殊字符转化为html字符</p>
+<ul>
+<li><code>explode</code> 分割字符串</li>
+<li><code>implode</code> 连接字符串</li>
+</ul>
+<p><code>is_object()</code>
+<code>is_bool()</code>
+<code>is_int()</code>
+<code>is_float()</code>
+<code>is_string()</code>
+<code>is_array()</code>
+<code>is_numeric()</code></p>
+<ul>
+<li><code>array_merge</code> 后面的数组会覆盖前面重复的内容，如果不想覆盖，直接使用“+”</li>
+<li><code>array_shift</code> 从数组头部去除数据</li>
+<li><code>array_reverse</code> 反转数组</li>
+<li><code>array_diff</code> 返回a中有而b中没有的</li>
+</ul>
 </div>
 </div>
 </div>
