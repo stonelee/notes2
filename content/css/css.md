@@ -7,6 +7,16 @@
 调整background的覆盖区域:
 `background-clip: border-box 或 padding-box 或 content-box`
 
+clip 决定元素可以显示的部分，只能应用于position:absolute的元素
+
+标准语法：
+ `clip: rect(40px, 200px, 150px, 30px);`
+
+IE：
+  `clip: rect(40px  200px  150px  30px);`
+
+`word-wrap: break-word` 连续字母换行
+
 控制背景的起始位置:
 background-origin.
 取值为padding-box, border-box, content-box

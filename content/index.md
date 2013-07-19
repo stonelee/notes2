@@ -15,4 +15,5 @@
 * [drupal](linux/drupal.html)
 
 ## [work](work/gtd.html)
+* [record](work/record.html)
 * [summary](work/summary.html)
