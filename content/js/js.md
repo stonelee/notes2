@@ -21,3 +21,8 @@ e = $.Event('hide')
 this.$element.trigger(e)
 if (!this.isShown || e.isDefaultPrevented()) return
 ```
+
+## 插件
+
+[jQuery-slimScroll](http://rocha.la/jQuery-slimScroll)
+自定义滚动条，mouseover时出现

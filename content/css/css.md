@@ -32,6 +32,8 @@ url中不需要''
 
 block元素如果不设定宽度，会使用文本宽度，进而扩展到最宽
 
+text-align: center在IE8和现代浏览器中只能居中inline元素,但是IE8中如果子元素设置了position:absolute则居中失效.
+
 ### Shrink Wrap
 
 使得block元素跟content一样宽

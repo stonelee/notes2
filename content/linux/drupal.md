@@ -108,6 +108,19 @@ ini_set('display_startup_errors', TRUE);
 使用templates/node--teaser.tpl.php
 `$vars['theme_hook_suggestions'][] = 'node__teaser';`
 
+`page  -> region ->block`
+
+template_preprocess 为template形式实现的theme提供变量
+
+hook_form_alter中当$form_id为node_type_form时,
+怀疑在#group为additional_settings中设置$form['rating']['nodeapi_example_node_type']后,
+会自动在variable中保存nodeapi_example_node_type_plan
+
+contextual_links 在block右上角添加编辑链接
+
+私有文件路径配置
+sites/default/files/private
+
 ## drush
 
 下载模块 `drush dl projectname`
@@ -160,3 +173,13 @@ eck
 * `array_reverse` 反转数组
 * `array_diff` 返回a中有而b中没有的
 
+### 发邮件
+
+```
+sudo apt-get install php-pear
+sudo pear install mail
+sudo pear install Net_SMTP
+sudo pear install Auth_SASL
+sudo pear install mail_mime
+sudo apt-get install postfix
+```
