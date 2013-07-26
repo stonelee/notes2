@@ -87,6 +87,14 @@ ini_set(&#39;display_startup_errors&#39;, TRUE);</pre><p>调试信息</p>
 </ul>
 <p>使用templates/node--teaser.tpl.php
 <code>$vars[&#39;theme_hook_suggestions&#39;][] = &#39;node__teaser&#39;;</code></p>
+<p><code>page  -&gt; region -&gt;block</code></p>
+<p>template_preprocess 为template形式实现的theme提供变量</p>
+<p>hook_form_alter中当$form_id为node_type_form时,
+怀疑在#group为additional_settings中设置$form[&#39;rating&#39;][&#39;nodeapi_example_node_type&#39;]后,
+会自动在variable中保存nodeapi_example_node_type_plan</p>
+<p>contextual_links 在block右上角添加编辑链接</p>
+<p>私有文件路径配置
+sites/default/files/private</p>
 <h2 id="drush">drush</h2><p>下载模块 <code>drush dl projectname</code></p>
 <p>升级 <code>drush up</code></p>
 <p>清缓存 <code>drush cc all</code></p>
@@ -119,7 +127,12 @@ ini_set(&#39;display_startup_errors&#39;, TRUE);</pre><p>调试信息</p>
 <li><code>array_reverse</code> 反转数组</li>
 <li><code>array_diff</code> 返回a中有而b中没有的</li>
 </ul>
-</div>
+<h3 id="发邮件">发邮件</h3><pre>sudo apt-get install php-pear
+sudo pear install mail
+sudo pear install Net_SMTP
+sudo pear install Auth_SASL
+sudo pear install mail_mime
+sudo apt-get install postfix</pre></div>
 </div>
 </div>
     <div class="footer">
