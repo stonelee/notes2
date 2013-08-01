@@ -65,7 +65,14 @@ character-set-server=utf8
 [mysqld]
 character-set-server=utf8</pre><h2 id="版本控制">版本控制</h2><h3 id="git">git</h3><p>抛弃未提交的变动 <code>git reset --hard HEAD</code></p>
 <p>撤销上次提交 <code>git revert HEAD</code></p>
-<h2 id="vim">vim</h2><p><code>ctrl+n</code> 关键字补全</p>
+<h3 id="svn">svn</h3><pre>svn checkout https://someurl
+svn: 方法 OPTIONS 失败于 “https://someurl”: SSL handshake failed: SSL 错误：在证书中检测到违规的密钥用法。 (https://10.10.22.20:8888)</pre><p>解决方法</p>
+<pre>sudo apt-get remove libneon27
+sudo apt-get install libssl0.9.8</pre><pre>Download the latest libneon package fromhttp://packages.debian.org/squeeze/libneon27  (at the bottom you can choose the right version for your architecture).
+32位下载：http://ftp.cn.debian.org/debian/pool/main/n/neon27/libneon27_0.29.3-3_i386.deb
+64位下载：http://ftp.cn.debian.org/debian/pool/main/n/neon27/libneon27_0.29.3-3_amd64.deb
+dpkg -i libneon27_0.29.3-3_amd64.deb 或 libneon27_0.29.3-3_i386.deb</pre><pre>sudo mv /usr/lib/libneon-gnutls.so.27 /usr/lib/libneon-gnutls.so.27.old
+sudo ln -s /usr/lib/libneon.so.27 /usr/lib/libneon-gnutls.so.27</pre><h2 id="vim">vim</h2><p><code>ctrl+n</code> 关键字补全</p>
 <h2 id="jshint">jshint</h2><p>在.jshint中配置es3:true，用于兼容IE8以下语法，例如数组中最后一项没有逗号</p>
 </div>
 </div>

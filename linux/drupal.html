@@ -22,7 +22,7 @@
 <p>建立文件并配置属性</p>
 <pre>cd ./sites/default
 sudo cp default.settings.php settings.php
-sudo chmod 777 settings.php
+sudo chmod 666 settings.php
 
 mkdir files
 sudo chmod 777 files</pre><h2 id="开发">开发</h2><p>module file (.module), include file (.inc), install file (.install), settings.php file, and template.php file (in themes)
@@ -95,13 +95,40 @@ ini_set(&#39;display_startup_errors&#39;, TRUE);</pre><p>调试信息</p>
 <p>contextual_links 在block右上角添加编辑链接</p>
 <p>私有文件路径配置
 sites/default/files/private</p>
+<p>编码规范
+<a href="http://drupal.org/coding-standards">http://drupal.org/coding-standards</a></p>
+<p>自定义模块一般放在/sites/default/modules.
+如果想在一个drupal实例中配置多个站点,共有的自定义模块放在/sites/all/modules/custom中</p>
+<p>确保服务器可以读 .info 和.module,但是不可写</p>
+<p>.info中files[] = first.module ;引入php functions, classes, interfaces,静态文件(包括php templates)不需要在这里声明</p>
+<pre>theme(&#39;links__contextual__node&#39;, $vars)会先使用 theme_links__contextual__node(), 然后 theme_links__contextual(), 最后 theme_links(),</pre><p><code>&#39;#type&#39; =&gt; &#39;value&#39;</code>类似hidden field,但是可以存储各种类型数据,而且不会被显示到页面上</p>
+<p>system_settings_form($form)会自动添加submit按钮,并存储variables</p>
+<p>confirm_form确认信息</p>
+<p>token_replace将token解析为相应内容</p>
+<ul>
+<li>Entity types 基类,包括Nodes(content), Comments, Taxonomy terms, User profile</li>
+<li>Bundles 子类,例如article, blog posts, products, taxonomy</li>
+<li>Fields 属性, primitive data type with validators, widgets, formatter</li>
+<li>Entities 实例</li>
+</ul>
+<p>注意使用filter_xss($text)</p>
+<p>db_query 中使用%s, %d, %d, %b</p>
+<p>执行顺序request -&gt; index.php(bootstrap) -&gt; menu system -&gt; node system -&gt; theme system</p>
+<p><code>hook_init ... hook_exit</code></p>
+<p>When creating a link to an entity, always use entity_uri($type, $entity)</p>
+<p>$types = &amp;drupal<em>static(<em>_FUNCTION</em></em>); 页面缓存,将函数名作为key.
+drupal_static() 可以集中控制php静态变量,也就是需要在function的多次调用中保存但是不属于全局变量的变量,常作为同一页面请求的缓存</p>
 <h2 id="drush">drush</h2><p>下载模块 <code>drush dl projectname</code></p>
 <p>升级 <code>drush up</code></p>
 <p>清缓存 <code>drush cc all</code></p>
 <p>备份数据库 <code>drush sql-dump &gt; /path/to/filename.sql</code></p>
 <h2 id="modules">modules</h2><p>eck</p>
 <p>代码风格检查 coder, grammar_parser</p>
-<h2 id="php">php</h2><p>5.3新语法 <code>$value ?: &quot;default&quot;</code></p>
+<p>调试email开发 reroute_e-mail</p>
+<h2 id="php">php</h2><p>debugger: <code>Xdebug</code> or <code>the Zend Debugger</code></p>
+<p>文档生成工具 <code>Doxygen</code></p>
+<p><code>func_get_args</code> 得到函数的传入参数</p>
+<p>5.3新语法 <code>$value ?: &quot;default&quot;</code></p>
 <p><code>define</code> 定义常量</p>
 <p><code>global</code> function中无法调用外面的变量，除非使用global关键字</p>
 <p><code>include_once</code> 仅仅加载并执行脚本一次</p>
