@@ -4,6 +4,11 @@
 
 ## basic
 
+`text-indent: 2em;`
+
+豆瓣阅读字体
+`font: 16px "Microsoft YaHei","Helvetica Neue",Helvetica,"Lucida Grande","Luxi Sans",Arial,sans-serif;`
+
 调整background的覆盖区域:
 `background-clip: border-box 或 padding-box 或 content-box`
 

@@ -108,6 +108,32 @@ character-set-server=utf8
 
 撤销上次提交 `git revert HEAD`
 
+### svn
+
+```
+svn checkout https://someurl
+svn: 方法 OPTIONS 失败于 “https://someurl”: SSL handshake failed: SSL 错误：在证书中检测到违规的密钥用法。 (https://10.10.22.20:8888)
+```
+
+解决方法
+
+```
+sudo apt-get remove libneon27
+sudo apt-get install libssl0.9.8
+```
+
+```
+Download the latest libneon package fromhttp://packages.debian.org/squeeze/libneon27  (at the bottom you can choose the right version for your architecture).
+32位下载：http://ftp.cn.debian.org/debian/pool/main/n/neon27/libneon27_0.29.3-3_i386.deb
+64位下载：http://ftp.cn.debian.org/debian/pool/main/n/neon27/libneon27_0.29.3-3_amd64.deb
+dpkg -i libneon27_0.29.3-3_amd64.deb 或 libneon27_0.29.3-3_i386.deb
+```
+
+```
+sudo mv /usr/lib/libneon-gnutls.so.27 /usr/lib/libneon-gnutls.so.27.old
+sudo ln -s /usr/lib/libneon.so.27 /usr/lib/libneon-gnutls.so.27
+```
+
 ## vim
 
 `ctrl+n` 关键字补全

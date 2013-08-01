@@ -11,7 +11,7 @@
 ```
 cd ./sites/default
 sudo cp default.settings.php settings.php
-sudo chmod 777 settings.php
+sudo chmod 666 settings.php
 
 mkdir files
 sudo chmod 777 files
@@ -121,6 +121,46 @@ contextual_links 在block右上角添加编辑链接
 私有文件路径配置
 sites/default/files/private
 
+编码规范
+http://drupal.org/coding-standards
+
+自定义模块一般放在/sites/default/modules.
+如果想在一个drupal实例中配置多个站点,共有的自定义模块放在/sites/all/modules/custom中
+
+确保服务器可以读 .info 和.module,但是不可写
+
+.info中files[] = first.module ;引入php functions, classes, interfaces,静态文件(包括php templates)不需要在这里声明
+
+```
+theme('links__contextual__node', $vars)会先使用 theme_links__contextual__node(), 然后 theme_links__contextual(), 最后 theme_links(),
+```
+
+`'#type' => 'value'`类似hidden field,但是可以存储各种类型数据,而且不会被显示到页面上
+
+system_settings_form($form)会自动添加submit按钮,并存储variables
+
+confirm_form确认信息
+
+token_replace将token解析为相应内容
+
+* Entity types 基类,包括Nodes(content), Comments, Taxonomy terms, User profile
+* Bundles 子类,例如article, blog posts, products, taxonomy
+* Fields 属性, primitive data type with validators, widgets, formatter
+* Entities 实例
+
+注意使用filter_xss($text)
+
+db_query 中使用%s, %d, %d, %b
+
+执行顺序request -> index.php(bootstrap) -> menu system -> node system -> theme system
+
+`hook_init ... hook_exit`
+
+When creating a link to an entity, always use entity_uri($type, $entity)
+
+$types = &drupal_static(__FUNCTION__); 页面缓存,将函数名作为key.
+drupal_static() 可以集中控制php静态变量,也就是需要在function的多次调用中保存但是不属于全局变量的变量,常作为同一页面请求的缓存
+
 ## drush
 
 下载模块 `drush dl projectname`
@@ -137,7 +177,15 @@ eck
 
 代码风格检查 coder, grammar_parser
 
+调试email开发 reroute_e-mail
+
 ## php
+
+debugger: `Xdebug` or `the Zend Debugger`
+
+文档生成工具 `Doxygen`
+
+`func_get_args` 得到函数的传入参数
 
 5.3新语法 `$value ?: "default"`
 
